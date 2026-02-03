@@ -1,6 +1,6 @@
 const express = require('express');
 const Category = require('../models/Category');
-const auth = require('../middleware/auth');  // See below for auth middleware
+const auth = require('./authMiddleware');  // See below for auth middleware
 
 const router = express.Router();
 
