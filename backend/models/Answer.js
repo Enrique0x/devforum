@@ -1,9 +1,10 @@
-// Answer model
-type Answer = {
-  body: string;
-  questionId: string;
-  userId: string;
-  createdAt: Date;
-};
+const mongoose = require('mongoose');
 
-module.exports = Answer;
+const answerSchema = new mongoose.Schema({
+  content: { type: String, required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  question: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true },
+  createdAt: { type: Date, default: Date.now },
+});
+
+module.exports = mongoose.model('Answer', answerSchema);
