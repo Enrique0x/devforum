@@ -1,0 +1,3 @@
+// Example data seeder
+console.log('Seeding example data...');
+// ...add seeding logic here...
