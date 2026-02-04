@@ -4,7 +4,7 @@ const Category = require('./models/Category');
 const Question = require('./models/Question');
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI);
 
 async function seed() {
   await User.deleteMany({});
