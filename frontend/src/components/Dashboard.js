@@ -36,29 +36,46 @@ const Dashboard = () => {
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ width: '200px', overflowY: 'scroll', height: '100vh', borderRight: '1px solid #ccc' }}>
-        <h3>Categories</h3>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+    <div className="flex min-h-screen bg-gray-50">
+      <aside className="w-64 bg-white border-r border-gray-200 h-screen overflow-y-auto p-6 sticky top-0">
+        <h3 className="text-lg font-semibold text-gray-700 mb-4">Categories</h3>
+        <ul className="space-y-1">
           {categories.map((cat) => (
-            <li key={cat._id} onClick={() => setSelectedCategory(cat._id)} style={{ cursor: 'pointer', padding: '10px', borderBottom: '1px solid #eee' }}>
+            <li
+              key={cat._id}
+              onClick={() => setSelectedCategory(cat._id)}
+              className={`px-4 py-3 rounded-lg cursor-pointer transition-colors ${
+                selectedCategory === cat._id
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
               {cat.name}
             </li>
           ))}
         </ul>
-      </div>
-      <div style={{ flex: 1, padding: '20px' }}>
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h1>DevQuery</h1>
-          <span>Welcome, {username}</span>
-          <a href="#logout" onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</a>
+      </aside>
+
+      <main className="flex-1 p-8">
+        <header className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">DevQuery</h1>
+          <div className="flex items-center gap-6">
+            <span className="text-gray-700">Welcome, {username}</span>
+            <button
+              onClick={handleLogout}
+              className="text-red-600 hover:text-red-800 font-medium"
+            >
+              Logout
+            </button>
+          </div>
         </header>
+
         {selectedCategory ? (
           <CategoryQuestions categoryId={selectedCategory} />
         ) : (
-          <p>Select a Category to view its questions.</p>
+          <p className="text-gray-500 text-lg">Select a category to view its questions.</p>
         )}
-      </div>
+      </main>
     </div>
   );
 };

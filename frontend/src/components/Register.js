@@ -40,31 +40,61 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input type="text" placeholder="Username" value={username} onChange={(e) => { setUsername(e.target.value); handleChange('username'); }} />
-          {errors.username && <span style={{ color: 'red', marginLeft: '10px' }}>{errors.username}</span>}
-        </div>
-        <div>
-          <input type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value); handleChange('password'); }} />
-          {errors.password && <span style={{ color: 'red', marginLeft: '10px' }}>{errors.password}</span>}
-        </div>
-        <div>
-          <input type="email" placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value); handleChange('email'); }} />
-          {errors.email && <span style={{ color: 'red', marginLeft: '10px' }}>{errors.email}</span>}
-        </div>
-        <div>
-          <label style={{ color: errors.agree ? 'red' : 'black' }}>
-            <input type="checkbox" checked={agree} onChange={() => { setAgree(!agree); handleChange('agree'); }} />
-            Agree to terms
-          </label>
-          {errors.agree && <span style={{ color: 'red', marginLeft: '10px' }}>{errors.agree}</span>}
-        </div>
-        <button type="submit">Register</button>
-      </form>
-      {errors.server && <p style={{ color: 'red' }}>{errors.server}</p>}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Register</h2>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => { setUsername(e.target.value); handleChange('username'); }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.username && <span className="text-red-600 ml-2">{errors.username}</span>}
+          </div>
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); handleChange('password'); }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.password && <span className="text-red-600 ml-2">{errors.password}</span>}
+          </div>
+          <div>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); handleChange('email'); }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            {errors.email && <span className="text-red-600 ml-2">{errors.email}</span>}
+          </div>
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={agree}
+              onChange={() => { setAgree(!agree); handleChange('agree'); }}
+              className="mr-2"
+            />
+            <label className={errors.agree ? "text-red-600" : "text-gray-700"}>
+              Agree to terms
+            </label>
+            {errors.agree && <span className="text-red-600 ml-2">{errors.agree}</span>}
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 font-medium"
+          >
+            Register
+          </button>
+        </form>
+        {errors.server && <p className="text-red-600 mt-4 text-center">{errors.server}</p>}
+      </div>
     </div>
   );
 };

@@ -41,21 +41,35 @@ const QuestionDetail = ({ questionId }) => {
     }
   };
 
-  if (!question) return <p>Loading...</p>;
+  if (!question) return <p className="text-gray-500">Loading...</p>;
 
   return (
-    <div>
-      <h3>{question.title}</h3>
-      <p>{question.content}</p>
-      <h4>Answers</h4>
-      <ul>
+    <div className="mt-8">
+      <h3 className="text-xl font-bold text-gray-800 mb-2">{question.title}</h3>
+      <p className="mb-4 text-gray-700">{question.content}</p>
+      <h4 className="text-lg font-semibold text-gray-700 mb-2">Answers</h4>
+      <ul className="space-y-2 mb-4">
         {answers.map((a) => (
-          <li key={a._id}>{a.content} - by {a.user.username} on {new Date(a.createdAt).toLocaleDateString()}</li>
+          <li key={a._id} className="bg-white px-4 py-3 rounded-lg shadow text-gray-700">
+            {a.content}
+            <span className="ml-2 text-gray-500 text-sm">- by {a.user.username} on {new Date(a.createdAt).toLocaleDateString()}</span>
+          </li>
         ))}
       </ul>
-      <form onSubmit={handleAnswer}>
-        <textarea placeholder="Your answer" value={content} onChange={(e) => setContent(e.target.value)} required />
-        <button type="submit">Post Answer</button>
+      <form onSubmit={handleAnswer} className="space-y-2">
+        <textarea
+          placeholder="Your answer"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 font-medium"
+        >
+          Post Answer
+        </button>
       </form>
     </div>
   );
