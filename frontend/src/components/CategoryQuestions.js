@@ -12,7 +12,7 @@ const CategoryQuestions = ({ categoryId }) => {
     const fetchQuestions = async () => {
       const token = localStorage.getItem('token');
       try {
-        const res = await axios.get(`http://localhost:5000/api/questions/${categoryId}`, {
+        const res = await axios.get(`http://localhost:5001/api/questions/${categoryId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setQuestions(res.data);
@@ -27,7 +27,7 @@ const CategoryQuestions = ({ categoryId }) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.post('http://localhost:5000/api/questions', { title, content, category: categoryId }, {
+      const res = await axios.post('http://localhost:5001/api/questions', { title, content, category: categoryId }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setQuestions([res.data, ...questions]);

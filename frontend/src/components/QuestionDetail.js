@@ -11,12 +11,12 @@ const QuestionDetail = ({ questionId }) => {
       const token = localStorage.getItem('token');
       try {
         // Fetch question details (assuming questions route returns full details; adjust if needed)
-        const qRes = await axios.get(`http://localhost:5000/api/questions/${questionId}`, {  // Note: Add this route if not present
+        const qRes = await axios.get(`http://localhost:5001/api/questions/${questionId}`, {  // Note: Add this route if not present
           headers: { Authorization: `Bearer ${token}` },
         });
         setQuestion(qRes.data);
 
-        const aRes = await axios.get(`http://localhost:5000/api/answers/${questionId}`, {
+        const aRes = await axios.get(`http://localhost:5001/api/answers/${questionId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setAnswers(aRes.data);
@@ -31,7 +31,7 @@ const QuestionDetail = ({ questionId }) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
     try {
-      const res = await axios.post('http://localhost:5000/api/answers', { content, question: questionId }, {
+      const res = await axios.post('http://localhost:5001/api/answers', { content, question: questionId }, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAnswers([res.data, ...answers]);
