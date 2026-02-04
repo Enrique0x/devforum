@@ -9,13 +9,20 @@ const QuestionDetail = ({ questionId }) => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
-      const qRes = await axios.get(`http://localhost:5000/api/questions/${questionId}`);  // Assume single question route if added, or adjust
-      setQuestion(qRes.data);  // Note: You may need to add a single question route in backend if not fetching from list.
+      try {
+        // Fetch question details (assuming questions route returns full details; adjust if needed)
+        const qRes = await axios.get(`http://localhost:5000/api/questions/${questionId}`, {  // Note: Add this route if not present
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setQuestion(qRes.data);
 
-      const aRes = await axios.get(`http://localhost:5000/api/answers/${questionId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setAnswers(aRes.data);
+        const aRes = await axios.get(`http://localhost:5000/api/answers/${questionId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setAnswers(aRes.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchData();
   }, [questionId]);
@@ -23,11 +30,15 @@ const QuestionDetail = ({ questionId }) => {
   const handleAnswer = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const res = await axios.post('http://localhost:5000/api/answers', { content, question: questionId }, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setAnswers([res.data, ...answers]);
-    setContent('');
+    try {
+      const res = await axios.post('http://localhost:5000/api/answers', { content, question: questionId }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAnswers([res.data, ...answers]);
+      setContent('');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   if (!question) return <p>Loading...</p>;
@@ -39,7 +50,7 @@ const QuestionDetail = ({ questionId }) => {
       <h4>Answers</h4>
       <ul>
         {answers.map((a) => (
-          <li key={a._id}>{a.content} - by {a.user.username}</li>
+          <li key={a._id}>{a.content} - by {a.user.username} on {new Date(a.createdAt).toLocaleDateString()}</li>
         ))}
       </ul>
       <form onSubmit={handleAnswer}>

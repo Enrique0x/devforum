@@ -12,16 +12,23 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
-      const decoded = JSON.parse(atob(token.split('.')[1]));  // Decode JWT to get username
-      setUsername(decoded.username || 'User');
+      if (!token) return navigate('/login');
 
-      const res = await axios.get('http://localhost:5000/api/categories', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setCategories(res.data);
+      // Decode JWT to get username (assuming username is in payload)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      setUsername(payload.username);
+
+      try {
+        const res = await axios.get('http://localhost:5000/api/categories', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setCategories(res.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -30,21 +37,21 @@ const Dashboard = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <div style={{ width: '200px', overflowY: 'auto', height: '100vh' }}>
+      <div style={{ width: '200px', overflowY: 'scroll', height: '100vh', borderRight: '1px solid #ccc' }}>
         <h3>Categories</h3>
-        <ul>
+        <ul style={{ listStyle: 'none', padding: 0 }}>
           {categories.map((cat) => (
-            <li key={cat._id} onClick={() => setSelectedCategory(cat._id)} style={{ cursor: 'pointer' }}>
+            <li key={cat._id} onClick={() => setSelectedCategory(cat._id)} style={{ cursor: 'pointer', padding: '10px', borderBottom: '1px solid #eee' }}>
               {cat.name}
             </li>
           ))}
         </ul>
       </div>
-      <div style={{ flex: 1 }}>
-        <header style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div style={{ flex: 1, padding: '20px' }}>
+        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h1>DevQuery</h1>
           <span>Welcome, {username}</span>
-          <button onClick={handleLogout}>Logout</button>
+          <a href="#logout" onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</a>
         </header>
         {selectedCategory ? (
           <CategoryQuestions categoryId={selectedCategory} />

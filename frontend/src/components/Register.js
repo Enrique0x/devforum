@@ -43,17 +43,25 @@ const Register = () => {
     <div>
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Username" value={username} onChange={(e) => { setUsername(e.target.value); handleChange('username'); }} />
-        {errors.username && <span style={{ color: 'red' }}>{errors.username}</span>}
-        <input type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value); handleChange('password'); }} />
-        {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
-        <input type="email" placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value); handleChange('email'); }} />
-        {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
-        <label>
-          <input type="checkbox" checked={agree} onChange={() => { setAgree(!agree); handleChange('agree'); }} />
-          Agree to terms
-        </label>
-        {errors.agree && <span style={{ color: 'red' }}>{errors.agree}</span>}
+        <div>
+          <input type="text" placeholder="Username" value={username} onChange={(e) => { setUsername(e.target.value); handleChange('username'); }} />
+          {errors.username && <span style={{ color: 'red', marginLeft: '10px' }}>{errors.username}</span>}
+        </div>
+        <div>
+          <input type="password" placeholder="Password" value={password} onChange={(e) => { setPassword(e.target.value); handleChange('password'); }} />
+          {errors.password && <span style={{ color: 'red', marginLeft: '10px' }}>{errors.password}</span>}
+        </div>
+        <div>
+          <input type="email" placeholder="Email" value={email} onChange={(e) => { setEmail(e.target.value); handleChange('email'); }} />
+          {errors.email && <span style={{ color: 'red', marginLeft: '10px' }}>{errors.email}</span>}
+        </div>
+        <div>
+          <label style={{ color: errors.agree ? 'red' : 'black' }}>
+            <input type="checkbox" checked={agree} onChange={() => { setAgree(!agree); handleChange('agree'); }} />
+            Agree to terms
+          </label>
+          {errors.agree && <span style={{ color: 'red', marginLeft: '10px' }}>{errors.agree}</span>}
+        </div>
         <button type="submit">Register</button>
       </form>
       {errors.server && <p style={{ color: 'red' }}>{errors.server}</p>}

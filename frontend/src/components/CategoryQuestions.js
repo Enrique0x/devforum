@@ -11,10 +11,14 @@ const CategoryQuestions = ({ categoryId }) => {
   useEffect(() => {
     const fetchQuestions = async () => {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:5000/api/questions/${categoryId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setQuestions(res.data);
+      try {
+        const res = await axios.get(`http://localhost:5000/api/questions/${categoryId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setQuestions(res.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchQuestions();
   }, [categoryId]);
@@ -22,12 +26,16 @@ const CategoryQuestions = ({ categoryId }) => {
   const handleAskQuestion = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token');
-    const res = await axios.post('http://localhost:5000/api/questions', { title, content, category: categoryId }, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setQuestions([res.data, ...questions]);
-    setTitle('');
-    setContent('');
+    try {
+      const res = await axios.post('http://localhost:5000/api/questions', { title, content, category: categoryId }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setQuestions([res.data, ...questions]);
+      setTitle('');
+      setContent('');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
